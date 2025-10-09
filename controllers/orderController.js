@@ -88,7 +88,6 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    // for simplicity only allow status or other fields update (not items) — can be extended
     const { order_status } = req.body;
     const { rows } = await db.query('UPDATE orders SET order_status=COALESCE($1, order_status) WHERE id=$2 RETURNING *', [order_status || null, req.params.id]);
     if (!rows.length) return res.status(404).json({ success:false, error:'Order not found' });
